@@ -1,0 +1,28 @@
+{
+  "name": "quizapp",
+  "version": "1.0.0",
+  "description": "Quiz application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelokoliopoulos/Quiz-App.git"
+  },
+  "author": "Angelos Koliopoulos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angelokoliopoulos/Quiz-App/issues"
+  },
+  "homepage": "https://github.com/angelokoliopoulos/Quiz-App#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
