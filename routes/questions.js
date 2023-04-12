@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Question = require("../models/Question");
 
+async function fetchTriviaData(endpoint) {
+  const response = await fetch(`${endpoint}`);
+  const data = response.json();
+  return data;
+}
+
 // Get all Questions
 router.get("/", async (req, res) => {
   try {
@@ -12,6 +18,24 @@ router.get("/", async (req, res) => {
 
     res.status(500).json({ success: false, error: error.message });
   }
+});
+
+// Store the trivia data in MongoDB
+router.get("/trivia", async (req, res) => {
+  const triviaData = await fetchTriviaData(
+    `https://the-trivia-api.com/api/questions?limit=20`
+  );
+
+  triviaData.forEach(async (trivia) => {
+    const existingQuestion = await Question.findOne({ id: trivia.id });
+
+    if (!existingQuestion) {
+      const newQuestion = new Question(trivia);
+      await newQuestion.save();
+    }
+  });
+
+  res.send("Trivia data stored in MongoDB");
 });
 
 // Add a question
