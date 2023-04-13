@@ -9,7 +9,14 @@ body {
   background-color: #f4f4f4;
   overflow-x: hidden;
 }
-
+.flex-simple{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width:80%;
+  margin:0 auto;
+}
 header {
   padding: 10px 0;
   text-align: center;
@@ -88,6 +95,8 @@ form label {
   font-weight: 600;
   margin: 5px 0;
 }
+
+
 
 .btn {
   background-color: #333;
@@ -183,6 +192,31 @@ form label {
   .modal-box {
     width: 90%;
   }
+}
+.quiz-container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+}
+
+.btn-container{
+  display:flex;
+width:100%;
+justify-content: center;
+}
+
+.btn-container .btn{
+  /* width:20% ;
+  margin :20px; */
+  flex: 1; 
+  max-width: 200px; 
+  margin: 5px; 
+  padding:20px 0;
+
+
 }
 
 .choice-container {

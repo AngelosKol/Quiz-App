@@ -1,8 +1,8 @@
 import QuestionsApi from "../services/QuestionsApi";
 
-class Table {
+class Singlequiz {
   constructor() {
-    this.tableEl = document.querySelector("#table");
+    this.body = document.querySelector("body");
     this._questions = [];
     this.getQuestions();
   }
@@ -24,13 +24,20 @@ class Table {
       array[j] = temp;
     }
   }
+  createButton() {
+    const button = document.createElement("button");
+    button.classList.add("btn");
+    return button;
+  }
 
   async render() {
     await this.getQuestions();
     const question = this._questions[Math.floor(Math.random() * 80)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     this.shuffleArray(answers);
-    this.tableEl.innerHTML = `
+    this.body.classList.add("flex-simple");
+    this.body.innerHTML = `
+    <div class="quiz-container">
     <h2 id="question">${question.question}</h2>
     <div class="choice-container">
       <p class="choice-prefix">A</p>
@@ -49,8 +56,14 @@ class Table {
       <p class="choice-text" data-number="4">${answers[3]}</p>
     </div>
   </div>
-    `;
+  <div class="btn-container">
+  <button class="btn">Return</button>
+  <button class="btn">Next</button>
+  </div>
+  
+  </div>
+   `;
   }
 }
 
-export default Table;
+export default Singlequiz;

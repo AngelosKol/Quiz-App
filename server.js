@@ -24,7 +24,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send({ message: "Hello world" });
+  res.send({ message: "Welcome to Questions Api" });
 });
 app.get("/quiz.html", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
