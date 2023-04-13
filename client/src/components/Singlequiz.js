@@ -4,6 +4,7 @@ class Singlequiz {
   constructor() {
     this.body = document.querySelector("body");
     this._questions = [];
+    this.correctAnswers = 0;
   }
 
   async getQuestions() {
@@ -25,18 +26,22 @@ class Singlequiz {
 
   changeQuestion(question, answersArray) {
     const heading = document.getElementById("question");
-    heading.innerHTML = `${question.question}`;
     const choices = Array.from(document.getElementsByClassName("choice-text"));
+
+    // remove all event listeners from the choices
+    choices.forEach((choice) => {
+      choice.removeEventListener("click", () => {});
+    });
+
+    heading.innerHTML = `${question.question}`;
+
     choices.forEach((choice, i) => {
       choice.innerText = `${answersArray[i]}`;
       choice.addEventListener("click", () => {
         if (choice.innerText === question.correctAnswer) {
-          // increment the counter for correct answers
-          correctAnswers++;
-          // add a class to highlight the correct answer
+          this.correctAnswers++;
           choice.classList.add("correct");
         } else {
-          // add a class to highlight the incorrect answer
           choice.classList.add("incorrect");
         }
         // disable all choices after an answer is selected
@@ -46,6 +51,13 @@ class Singlequiz {
         });
       });
     });
+
+    //remove all classes from the choices
+    choices.forEach((choice) => {
+      choice.classList.remove("correct");
+      choice.classList.remove("incorrect");
+      choice.classList.remove("disabled");
+    });
   }
 
   async render() {
@@ -53,6 +65,7 @@ class Singlequiz {
     const question = this._questions[Math.floor(Math.random() * 380)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     this.shuffleArray(answers);
+
     this.body.classList.add("flex-simple");
     this.body.innerHTML = `
     <div class="quiz-container">
@@ -81,6 +94,21 @@ class Singlequiz {
   
   </div>
    `;
+    const choices = Array.from(document.getElementsByClassName("choice-text"));
+    choices.forEach((choice) => {
+      choice.addEventListener("click", () => {
+        if (choice.innerText === question.correctAnswer) {
+          this.correctAnswers++;
+          choice.classList.add("correct");
+        } else {
+          choice.classList.add("incorrect");
+        }
+        choices.forEach((choice) => {
+          choice.removeEventListener("click", () => {});
+          choice.classList.add("disabled");
+        });
+      });
+    });
     const nextButton = document.querySelector("#next");
     nextButton.addEventListener("click", () => {
       const nextQuestion = this._questions[Math.floor(Math.random() * 380)];

@@ -246,3 +246,13 @@ justify-content: center;
   width: 100%;
 }
 
+.incorrect {
+  background-color: #ff00005d;
+}
+
+.correct {
+  background-color: #00ff005d;
+}
+.disabled {
+  cursor: not-allowed;
+}
