@@ -6,8 +6,8 @@ import QuestionList from "./components/QuestionList";
 import Singlequiz from "./components/Singlequiz";
 import Filtered from "./components/Filtered";
 
-const playBtn = document.querySelector(".play-btn");
-const filterBtn = document.getElementById("filter-mode");
+const randomPlayBtn = document.getElementById("random-mode");
+const filterPlayBtn = document.getElementById("filter-mode");
 
 // const modal = new Modal();
 const questionForm = new QuestionForm();
@@ -16,10 +16,10 @@ const singleQuiz = new Singlequiz();
 const filteredMode = new Filtered();
 questionForm.render();
 
-playBtn.addEventListener("click", () => {
+randomPlayBtn.addEventListener("click", () => {
   singleQuiz.render();
 });
 
-filterBtn.addEventListener("click", () => {
+filterPlayBtn.addEventListener("click", () => {
   filteredMode.render();
 });
