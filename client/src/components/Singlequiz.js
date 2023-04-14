@@ -2,7 +2,8 @@ import QuestionsApi from "../services/QuestionsApi";
 
 class Singlequiz {
   constructor() {
-    this.body = document.querySelector("body");
+    this.div = document.querySelector(".container");
+    this.header = document.querySelector("header");
     this._questions = [];
     this.correctAnswers = 0;
   }
@@ -65,9 +66,9 @@ class Singlequiz {
     const question = this._questions[Math.floor(Math.random() * 380)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     this.shuffleArray(answers);
-
-    this.body.classList.add("flex-simple");
-    this.body.innerHTML = `
+    this.header.style.display = "none";
+    this.div.classList.add("flex-simple");
+    this.div.innerHTML = `
     <div class="quiz-container">
     <h2 id="question">${question.question}</h2>
     <div class="choice-container">
@@ -88,7 +89,7 @@ class Singlequiz {
     </div>
   </div>
   <div class="btn-container">
-  <button class="btn">Return</button>
+  <button class="btn" id="return">Return</button>
   <button class="btn" id="next">Next</button>
   </div>
   
