@@ -25,6 +25,12 @@ class Singlequiz {
     }
   }
 
+  handleReturn() {
+    this.div.classList.remove("flex-simple");
+    this.div.innerHTML = "";
+    this.header.style.display = "block";
+  }
+
   changeQuestion(question, answersArray) {
     const heading = document.getElementById("question");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
@@ -44,11 +50,11 @@ class Singlequiz {
           choice.classList.add("correct");
         } else {
           choice.classList.add("incorrect");
+          choice.classList.add("disabled");
         }
         // disable all choices after an answer is selected
         choices.forEach((choice) => {
           choice.removeEventListener("click", () => {});
-          choice.classList.add("disabled");
         });
       });
     });
@@ -103,13 +109,15 @@ class Singlequiz {
           choice.classList.add("correct");
         } else {
           choice.classList.add("incorrect");
+          choice.classList.add("disabled");
         }
         choices.forEach((choice) => {
           choice.removeEventListener("click", () => {});
-          choice.classList.add("disabled");
         });
       });
     });
+
+    //next button handler
     const nextButton = document.querySelector("#next");
     nextButton.addEventListener("click", () => {
       const nextQuestion = this._questions[Math.floor(Math.random() * 380)];
@@ -119,6 +127,11 @@ class Singlequiz {
       this.shuffleArray(nextAnswers);
       this.changeQuestion(nextQuestion, nextAnswers);
     });
+
+    //return button handler
+    document
+      .querySelector("#return")
+      .addEventListener("click", this.handleReturn.bind(this));
   }
 }
 

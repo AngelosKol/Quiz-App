@@ -1,5 +1,4 @@
 const path = require("path");
-const fs = require("fs");
 const express = require("express");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -25,9 +24,6 @@ app.use(
 
 app.get("/", (req, res) => {
   res.send({ message: "Welcome to Questions Api" });
-});
-app.get("/quiz.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const questionsRouter = require("./routes/questions");
