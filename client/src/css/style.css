@@ -33,12 +33,17 @@ header {
   top: 10px;
   left: 10px;
 }
+#filter-mode{
+  top: 10px;
+  left: 30px;
+}
+
 .play-btn{
   color: green;
   cursor: pointer;
   position: absolute;
   top: 10px;
-  left: 100px;
+  left: 150px;
 
 }
 

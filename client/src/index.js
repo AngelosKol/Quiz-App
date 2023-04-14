@@ -9,7 +9,7 @@ import Filtered from "./components/Filtered";
 const playBtn = document.querySelector(".play-btn");
 const filterBtn = document.getElementById("filter-mode");
 
-const modal = new Modal();
+// const modal = new Modal();
 const questionForm = new QuestionForm();
 const questionList = new QuestionList();
 const singleQuiz = new Singlequiz();
