@@ -8,15 +8,25 @@ async function fetchTriviaData(endpoint) {
   return data;
 }
 
-// Get all Questions
 router.get("/", async (req, res) => {
+  const { category, difficulty } = req.query;
+
   try {
-    const questions = await Question.find();
-    res.json({ success: true, data: questions });
+    let query = {};
+
+    if (category) {
+      query.category = category;
+    }
+
+    if (difficulty) {
+      query.difficulty = difficulty;
+    }
+
+    const questions = await Question.find(query);
+    res.status(200).json({ success: true, data: questions });
   } catch (error) {
     console.log(error);
-
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, error: "Something went wrong" });
   }
 });
 

@@ -17,7 +17,7 @@ class QuestionList {
   async getQuestions() {
     try {
       const response = await QuestionsApi.getQuestions();
-      this._questions = response.data.data[Math.floor(Math.random() * 80)];
+      this._questions = response[Math.floor(Math.random() * 80)];
       // this.render();
     } catch (error) {
       console.log(error);
