@@ -7,6 +7,10 @@ class Filtered {
     this._categories = [];
   }
 
+  addEventListeners() {
+    this._submitBtn.addEventListener("click", this.renderQuestions.bind(this));
+  }
+
   async getCategory() {
     try {
       const response = await QuestionsApi.getQuestions();
@@ -14,11 +18,12 @@ class Filtered {
         return question.category;
       });
       this._categories = [...new Set(categories)];
-      console.log(this._categories);
     } catch (error) {
       console.log(error);
     }
   }
+
+  //Renders the first five questions that match the filter criteria
 
   async renderQuestions() {
     const category = document.getElementById("category").value;
@@ -32,7 +37,7 @@ class Filtered {
         (!difficulty || question.difficulty === difficulty)
       );
     });
-
+    console.log(filteredQuestions);
     // Render the first five questions that match the filter criteria
     let html = "";
     for (let i = 0; i < filteredQuestions.length && i < 5; i++) {
@@ -46,6 +51,8 @@ class Filtered {
     }
     this.div.innerHTML = html;
   }
+
+  //Renders the form for filtering questions
   async renderForm() {
     await this.getCategory();
     this.div.innerHTML = `
@@ -70,9 +77,8 @@ class Filtered {
         <br>
         <button type="button" id="filterBtn">Filter</button>
       </form>`;
-    document
-      .getElementById("filterBtn")
-      .addEventListener("click", this.renderQuestions.bind(this));
+    this._submitBtn = document.getElementById("filterBtn");
+    this.addEventListeners();
   }
 }
 
