@@ -19,6 +19,14 @@ router.get("/", async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+router.get("/:category", async (req, res) => {
+  try {
+    const question = await Question.findOne(req.params.category);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Something went wrong" });
+  }
+});
 
 // Store the trivia data in MongoDB
 router.get("/trivia", async (req, res) => {

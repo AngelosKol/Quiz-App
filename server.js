@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
   res.send({ message: "Welcome to Questions Api" });
 });
 
-const questionsRouter = require("./routes/questions");
+const questionsRouter = require("./routes/routing");
 app.use("/api/questions", questionsRouter);
 
 app.listen(port, () => console.log(`Server is listening on port ${port}`));
