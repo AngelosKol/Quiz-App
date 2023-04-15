@@ -16,7 +16,9 @@ class QuestionsApi {
       url += `&difficulty=${difficulty}`;
     }
 
-    return axios.get(url);
+    return axios.get(url).then((response) => {
+      return response.data.data;
+    });
   }
 
   createQuestion(data) {

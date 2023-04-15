@@ -8,10 +8,10 @@ class Singlequiz {
     this.correctAnswers = 0;
   }
 
-  async getQuestions() {
+  async startQuiz() {
     try {
       const response = await QuestionsApi.getQuestions();
-      this._questions = response.data.data;
+      this._questions = response;
       console.log(this._questions);
     } catch (error) {
       console.log(error);
@@ -69,7 +69,7 @@ class Singlequiz {
   }
 
   async render() {
-    await this.getQuestions();
+    await this.startQuiz();
     const question = this._questions[Math.floor(Math.random() * 380)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     this.shuffleArray(answers);

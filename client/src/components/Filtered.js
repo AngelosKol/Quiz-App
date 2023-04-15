@@ -10,8 +10,7 @@ class Filtered {
   async getCategory() {
     try {
       const response = await QuestionsApi.getQuestions();
-      console.log(response.data.data[1].category);
-      const categories = response.data.data.map((question) => {
+      const categories = response.map((question) => {
         return question.category;
       });
       this._categories = [...new Set(categories)];
@@ -22,13 +21,18 @@ class Filtered {
   }
 
   async render() {
+    await this.getCategory();
     this.div.innerHTML = `
         <form>
         <label for="category">Category:</label>
         <select name="category" id="category">
           <option value="">--Select category--</option>
-          <!-- options will be dynamically populated using axios -->
-        </select>
+          ${this._categories
+            .map(
+              (category) => `<option value="${category}">${category}</option>`
+            )
+            .join("")} 
+                   </select>
         <br>
         <label for="difficulty">Difficulty:</label>
         <select name="difficulty" id="difficulty">
