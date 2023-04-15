@@ -17,6 +17,14 @@ class Singlequiz {
       console.log(error);
     }
   }
+  //return button handler &  next button handler
+  addEventListeners() {
+    this._returnBtn.addEventListener("click", this.handleReturn.bind(this));
+    this._nextButton.addEventListener(
+      "click",
+      this.nextButtonHandler.bind(this)
+    );
+  }
   shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -31,7 +39,12 @@ class Singlequiz {
     this.div.innerHTML = "";
     this.header.style.display = "block";
   }
-
+  nextButtonHandler() {
+    const question = this._questions[Math.floor(Math.random() * 380)];
+    const answers = [question.correctAnswer].concat(question.incorrectAnswers);
+    this.shuffleArray(answers);
+    this.changeQuestion(question, answers);
+  }
   changeQuestion(question, answersArray) {
     const heading = document.getElementById("question");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
@@ -102,6 +115,11 @@ class Singlequiz {
   
   </div>
    `;
+    this._returnBtn = document.getElementById("return");
+
+    this._nextButton = document.querySelector("#next");
+
+    this.addEventListeners();
     const choices = Array.from(document.getElementsByClassName("choice-text"));
     choices.forEach((choice) => {
       choice.addEventListener("click", () => {
@@ -117,22 +135,6 @@ class Singlequiz {
         });
       });
     });
-
-    //next button handler
-    const nextButton = document.querySelector("#next");
-    nextButton.addEventListener("click", () => {
-      const nextQuestion = this._questions[Math.floor(Math.random() * 380)];
-      const nextAnswers = [nextQuestion.correctAnswer].concat(
-        nextQuestion.incorrectAnswers
-      );
-      this.shuffleArray(nextAnswers);
-      this.changeQuestion(nextQuestion, nextAnswers);
-    });
-
-    //return button handler
-    document
-      .querySelector("#return")
-      .addEventListener("click", this.handleReturn.bind(this));
   }
 }
 
