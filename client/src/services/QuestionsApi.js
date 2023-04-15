@@ -5,20 +5,19 @@ class QuestionsApi {
     this._apiUrl = `http://localhost:8000/api/questions`;
   }
 
-  getQuestions(category, difficulty) {
+  async getQuestions(category, difficulty) {
     let url = this._apiUrl;
 
     if (category) {
-      url += `?category=${category}`;
+      url += `?category=${encodeURIComponent(category)}`;
     }
 
     if (difficulty) {
-      url += `&difficulty=${difficulty}`;
+      url += `&difficulty=${encodeURIComponent(difficulty)}`;
     }
 
-    return axios.get(url).then((response) => {
-      return response.data.data;
-    });
+    const response = await axios.get(url);
+    return response.data.data;
   }
 
   createQuestion(data) {

@@ -19,5 +19,5 @@ randomPlayBtn.addEventListener("click", () => {
 });
 
 filterPlayBtn.addEventListener("click", () => {
-  filteredMode.render();
+  filteredMode.renderForm();
 });

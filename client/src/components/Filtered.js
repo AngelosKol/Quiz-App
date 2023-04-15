@@ -20,7 +20,33 @@ class Filtered {
     }
   }
 
-  async render() {
+  async renderQuestions() {
+    const category = document.getElementById("category").value;
+    const difficulty = document.getElementById("difficulty").value;
+    const response = await QuestionsApi.getQuestions(category, difficulty);
+    this._questions = response;
+    // Filter questions based on selected category and difficulty
+    const filteredQuestions = this._questions.filter((question) => {
+      return (
+        (!category || question.category === category) &&
+        (!difficulty || question.difficulty === difficulty)
+      );
+    });
+
+    // Render the first five questions that match the filter criteria
+    let html = "";
+    for (let i = 0; i < filteredQuestions.length && i < 5; i++) {
+      html += `
+      <div>
+        <h2>${filteredQuestions[i].question}</h2>
+        <p>Category: ${filteredQuestions[i].category}</p>
+        <p>Difficulty: ${filteredQuestions[i].difficulty}</p>
+      </div>
+    `;
+    }
+    this.div.innerHTML = html;
+  }
+  async renderForm() {
     await this.getCategory();
     this.div.innerHTML = `
         <form>
@@ -46,7 +72,7 @@ class Filtered {
       </form>`;
     document
       .getElementById("filterBtn")
-      .addEventListener("click", this.getCategory);
+      .addEventListener("click", this.renderQuestions.bind(this));
   }
 }
 
