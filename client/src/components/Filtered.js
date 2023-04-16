@@ -1,4 +1,5 @@
 import QuestionsApi from "../services/QuestionsApi";
+import Singlequiz from "./Singlequiz";
 
 class Filtered {
   constructor() {
