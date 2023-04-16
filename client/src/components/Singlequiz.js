@@ -17,6 +17,7 @@ class Singlequiz {
       console.log(error);
     }
   }
+
   //return button handler &  next button handler
   addEventListeners() {
     this._returnBtn.addEventListener("click", this.handleReturn.bind(this));
@@ -118,9 +119,26 @@ class Singlequiz {
     this._returnBtn = document.getElementById("return");
 
     this._nextButton = document.querySelector("#next");
-
-    this.addEventListeners();
     const choices = Array.from(document.getElementsByClassName("choice-text"));
+    this.choicesHandler(choices, question);
+    this.addEventListeners();
+    // const choices = Array.from(document.getElementsByClassName("choice-text"));
+    // choices.forEach((choice) => {
+    //   choice.addEventListener("click", () => {
+    //     if (choice.innerText === question.correctAnswer) {
+    //       this.correctAnswers++;
+    //       choice.classList.add("correct");
+    //     } else {
+    //       choice.classList.add("incorrect");
+    //       choice.classList.add("disabled");
+    //     }
+    //     choices.forEach((choice) => {
+    //       choice.removeEventListener("click", () => {});
+    //     });
+    //   });
+    // });
+  }
+  choicesHandler(choices, question) {
     choices.forEach((choice) => {
       choice.addEventListener("click", () => {
         if (choice.innerText === question.correctAnswer) {
