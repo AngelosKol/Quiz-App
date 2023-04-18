@@ -25,101 +25,87 @@ class Filtered {
     const difficulty = document.getElementById("difficulty").value;
     const response = await QuestionsApi.getQuestions(category, difficulty);
     this._questions = response;
+    console.log(this._questions);
 
-    const filteredQuestions = this.filterQuestions(category, difficulty);
-    this.clearQuestions();
+    this._currentIndex = 0;
+    const question = this._questions[this._currentIndex];
+    const answers = [question.correctAnswer, ...question.incorrectAnswers];
+    shuffleArray(answers);
+    console.log(answers);
+    this.div.classList.add("flex-simple");
+    this.div.innerHTML = `
+      <div class="quiz-container">
+        <h2 id="question">${question.question}</h2>
+        <div class="choice-container">
+          <p class="choice-prefix">A</p>
+          <p class="choice-text" data-number="1"></p>
+        </div>
+        <div class="choice-container">
+          <p class="choice-prefix">B</p>
+          <p class="choice-text" data-number="2"></p>
+        </div>
+        <div class="choice-container">
+          <p class="choice-prefix">C</p>
+          <p class="choice-text" data-number="3"></p>
+        </div>
+        <div class="choice-container">
+          <p class="choice-prefix">D</p>
+          <p class="choice-text" data-number="4"></p>
+        </div>
+      </div>
+      <div class="btn-container">
+        <button class="btn" id="return">Return</button>
+        <button class="btn" id="next">Next</button>
+      </div>
+    `;
+    const choices = Array.from(document.getElementsByClassName("choice-text"));
+    this.choicesHandler(choices, question, answers);
 
-    for (let i = 0; i < filteredQuestions.length; i++) {
-      const question = filteredQuestions[i];
-      const answers = [question.correctAnswer].concat(
-        question.incorrectAnswers
-      );
-      shuffleArray(answers);
-      const questionContainer = this.createQuestionContainer(question, answers);
-      this.appendQuestionContainer(questionContainer);
-    }
+    this._returnBtn = document.getElementById("return");
+    this._nextButton = document.querySelector("#next");
+
+    this._nextButton.addEventListener("click", () => {
+      if (this._currentIndex < this._questions.length - 1) {
+        this._currentIndex++;
+        this.showQuestion();
+      } else {
+        this._nextButton.classList.add("disabled");
+      }
+    });
   }
 
-  //create a div for each question
-  createQuestionContainer(question, answers) {
-    const questionContainer = document.createElement("div");
-    questionContainer.classList.add("quiz-container");
+  showQuestion() {
+    const question = this._questions[this._currentIndex];
+    const answers = [question.correctAnswer, ...question.incorrectAnswers];
+    shuffleArray(answers);
 
-    const questionText = document.createElement("h5");
-    questionText.classList.add("question-text");
+    const questionText = document.getElementById("question");
+    const choiceTexts = document.querySelectorAll(".choice-text");
+
     questionText.innerText = question.question;
-    questionContainer.appendChild(questionText);
-
-    const categoryText = document.createElement("p");
-    categoryText.innerText = `Category: ${question.category}`;
-
-    const difficultyText = document.createElement("p");
-    difficultyText.innerText = `Difficulty: ${question.difficulty}`;
-
-    //loop through answers array and create a div for each answer
-    for (let j = 0; j < answers.length; j++) {
-      const choiceContainer = document.createElement("div");
-      choiceContainer.classList.add("choice-container");
-      const choicePrefix = document.createElement("p");
-      choicePrefix.classList.add("choice-prefix-multiple");
-      choicePrefix.innerText = String.fromCharCode(65 + j); // A, B, C, D
-      choiceContainer.appendChild(choicePrefix);
-
-      const choiceText = document.createElement("p");
-      choiceText.classList.add("choice-text-multiple");
-      choiceText.dataset.number = j + 1;
-      choiceText.innerText = answers[j];
-      choiceContainer.appendChild(choiceText);
-
-      // Add event listener to each choice
-      choiceText.addEventListener("click", () => {
-        const selectedChoice = parseInt(choiceText.dataset.number);
-        const correctChoice = answers.indexOf(question.correctAnswer) + 1;
-
-        if (selectedChoice === correctChoice) {
-          choiceContainer.classList.add("correct");
+    choiceTexts.forEach((choice) => {
+      choice.classList.remove("correct");
+      choice.classList.remove("incorrect");
+      choice.classList.remove("disabled");
+    });
+    this.choicesHandler(choiceTexts, question, answers);
+  }
+  choicesHandler(choices, question, answersArray) {
+    choices.forEach((choice, i) => {
+      choice.innerText = `${answersArray[i]}`;
+      choice.addEventListener("click", () => {
+        if (choice.innerText === question.correctAnswer) {
+          choice.classList.add("correct");
         } else {
-          choiceContainer.classList.add("incorrect");
+          choice.classList.add("incorrect");
+          choice.classList.add("disabled");
         }
-
-        // Disable all choices after an answer is selected
-        const allChoices =
-          choiceContainer.parentElement.querySelectorAll(".choice-text");
-        for (let k = 0; k < allChoices.length; k++) {
-          allChoices[k].classList.add("disabled");
-        }
+        choices.forEach((choice) => {
+          choice.removeEventListener("click", () => {});
+        });
       });
-
-      choiceContainer.style.fontSize = "1rem";
-      questionContainer.appendChild(choiceContainer);
-      questionContainer.classList.add("multiple-quiz");
-    }
-
-    return questionContainer;
+    });
   }
-
-  filterQuestions(category, difficulty) {
-    return this._questions
-      .filter((question) => {
-        return (
-          (!category || question.category === category) &&
-          (!difficulty || question.difficulty === difficulty)
-        );
-      })
-      .slice(0, 5);
-  }
-
-  clearQuestions() {
-    while (this.div.firstChild) {
-      this.div.removeChild(this.div.firstChild);
-    }
-  }
-
-  appendQuestionContainer(questionContainer) {
-    this.div.classList.add("multiple");
-    this.div.appendChild(questionContainer);
-  }
-
   //Renders the form for filtering questions
   async renderForm() {
     await this.getCategory();

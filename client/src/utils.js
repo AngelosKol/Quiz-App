@@ -6,3 +6,21 @@ export function shuffleArray(array) {
     array[j] = temp;
   }
 }
+export function choicesHandler(choices, question, answersArray) {
+  choices.forEach((choice, i) => {
+    choice.innerText = `${answersArray[i]}`;
+    choice.addEventListener("click", () => {
+      if (choice.innerText === question.correctAnswer) {
+        this.correctAnswers++;
+        console.log(this.correctAnswers);
+        choice.classList.add("correct");
+      } else {
+        choice.classList.add("incorrect");
+        choice.classList.add("disabled");
+      }
+      choices.forEach((choice) => {
+        choice.removeEventListener("click", () => {});
+      });
+    });
+  });
+}
