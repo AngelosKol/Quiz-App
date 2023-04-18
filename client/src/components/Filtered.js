@@ -1,16 +1,10 @@
 import QuestionsApi from "../services/QuestionsApi";
-import Singlequiz from "./Singlequiz";
-
+import { shuffleArray } from "../utils";
 class Filtered {
   constructor() {
     this.div = document.querySelector(".container");
     this._questions = [];
     this._categories = [];
-    this.singlequiz = new Singlequiz();
-  }
-
-  addEventListeners() {
-    this._submitBtn.addEventListener("click", this.renderQuestions.bind(this));
   }
 
   async getCategory() {
@@ -25,33 +19,87 @@ class Filtered {
     }
   }
 
-  choicesHandler() {
-    choices.forEach((choice, i) => {
-      choice.addEventListener("click", () => {
-        if (choice.innerText === question.correctAnswer) {
-          this.correctAnswers++;
-          console.log(this.correctAnswers);
-          choice.classList.add("correct");
-        } else {
-          choice.classList.add("incorrect");
-          choice.classList.add("disabled");
-        }
-        choices.forEach((choice) => {
-          choice.removeEventListener("click", () => {});
-        });
-      });
-    });
-  }
-
   //Renders the first five questions that match the filter criteria
-
   async renderQuestions() {
     const category = document.getElementById("category").value;
     const difficulty = document.getElementById("difficulty").value;
     const response = await QuestionsApi.getQuestions(category, difficulty);
     this._questions = response;
-    // Filter questions based on selected category and difficulty
-    const filteredQuestions = this._questions
+
+    const filteredQuestions = this.filterQuestions(category, difficulty);
+    this.clearQuestions();
+
+    for (let i = 0; i < filteredQuestions.length; i++) {
+      const question = filteredQuestions[i];
+      const answers = [question.correctAnswer].concat(
+        question.incorrectAnswers
+      );
+      shuffleArray(answers);
+      const questionContainer = this.createQuestionContainer(question, answers);
+      this.appendQuestionContainer(questionContainer);
+    }
+  }
+
+  //create a div for each question
+  createQuestionContainer(question, answers) {
+    const questionContainer = document.createElement("div");
+    questionContainer.classList.add("quiz-container");
+
+    const questionText = document.createElement("h2");
+    questionText.classList.add("question-text");
+    questionText.innerText = question.question;
+    questionContainer.appendChild(questionText);
+
+    const categoryText = document.createElement("p");
+    categoryText.innerText = `Category: ${question.category}`;
+    questionContainer.appendChild(categoryText);
+
+    const difficultyText = document.createElement("p");
+    difficultyText.innerText = `Difficulty: ${question.difficulty}`;
+    questionContainer.appendChild(difficultyText);
+
+    //loop through answers array and create a div for each answer
+    for (let j = 0; j < answers.length; j++) {
+      const choiceContainer = document.createElement("div");
+      choiceContainer.classList.add("choice-container");
+      const choicePrefix = document.createElement("p");
+      choicePrefix.classList.add("choice-prefix");
+      choicePrefix.innerText = String.fromCharCode(65 + j); // A, B, C, D
+      choiceContainer.appendChild(choicePrefix);
+
+      const choiceText = document.createElement("p");
+      choiceText.classList.add("choice-text");
+      choiceText.dataset.number = j + 1;
+      choiceText.innerText = answers[j];
+      choiceContainer.appendChild(choiceText);
+
+      // Add event listener to each choice
+      choiceText.addEventListener("click", () => {
+        const selectedChoice = parseInt(choiceText.dataset.number);
+        const correctChoice = answers.indexOf(question.correctAnswer) + 1;
+
+        if (selectedChoice === correctChoice) {
+          choiceContainer.classList.add("correct");
+        } else {
+          choiceContainer.classList.add("incorrect");
+        }
+
+        // Disable all choices after an answer is selected
+        const allChoices =
+          choiceContainer.parentElement.querySelectorAll(".choice-text");
+        for (let k = 0; k < allChoices.length; k++) {
+          allChoices[k].classList.add("disabled");
+        }
+      });
+
+      questionContainer.appendChild(choiceContainer);
+    }
+
+    return questionContainer;
+  }
+
+  filterQuestions(category, difficulty) {
+    return this._questions
       .filter((question) => {
         return (
           (!category || question.category === category) &&
@@ -59,75 +107,16 @@ class Filtered {
         );
       })
       .slice(0, 5);
-    // Render the first five questions that match the filter criteria
+  }
 
+  clearQuestions() {
     while (this.div.firstChild) {
       this.div.removeChild(this.div.firstChild);
     }
+  }
 
-    // Append each question container to the container
-    for (let i = 0; i < filteredQuestions.length; i++) {
-      const question = filteredQuestions[i];
-      const answers = [question.correctAnswer].concat(
-        question.incorrectAnswers
-      );
-      this.singlequiz.shuffleArray(answers);
-
-      const questionContainer = document.createElement("div");
-      questionContainer.classList.add("quiz-container");
-
-      const questionText = document.createElement("h2");
-      questionText.classList.add("question-text");
-      questionText.innerText = question.question;
-      questionContainer.appendChild(questionText);
-
-      const categoryText = document.createElement("p");
-      categoryText.innerText = `Category: ${question.category}`;
-      questionContainer.appendChild(categoryText);
-
-      const difficultyText = document.createElement("p");
-      difficultyText.innerText = `Difficulty: ${question.difficulty}`;
-      questionContainer.appendChild(difficultyText);
-
-      for (let j = 0; j < answers.length; j++) {
-        const choiceContainer = document.createElement("div");
-        choiceContainer.classList.add("choice-container");
-
-        const choicePrefix = document.createElement("p");
-        choicePrefix.classList.add("choice-prefix");
-        choicePrefix.innerText = String.fromCharCode(65 + j); // A, B, C, D
-        choiceContainer.appendChild(choicePrefix);
-
-        const choiceText = document.createElement("p");
-        choiceText.classList.add("choice-text");
-        choiceText.dataset.number = j + 1;
-        choiceText.innerText = answers[j];
-        choiceContainer.appendChild(choiceText);
-
-        // Add event listener to each choice
-        choiceText.addEventListener("click", () => {
-          const selectedChoice = parseInt(choiceText.dataset.number);
-          const correctChoice = answers.indexOf(question.correctAnswer) + 1;
-
-          if (selectedChoice === correctChoice) {
-            choiceContainer.classList.add("correct");
-          } else {
-            choiceContainer.classList.add("incorrect");
-          }
-
-          // Disable all choices after an answer is selected
-          const allChoices =
-            choiceContainer.parentElement.querySelectorAll(".choice-text");
-          for (let k = 0; k < allChoices.length; k++) {
-            allChoices[k].classList.add("disabled");
-          }
-        });
-
-        questionContainer.appendChild(choiceContainer);
-      }
-
-      this.div.appendChild(questionContainer);
-    }
+  appendQuestionContainer(questionContainer) {
+    this.div.appendChild(questionContainer);
   }
 
   //Renders the form for filtering questions
@@ -156,7 +145,7 @@ class Filtered {
         <button type="button" id="filterBtn">Filter</button>
       </form>`;
     this._submitBtn = document.getElementById("filterBtn");
-    this.addEventListeners();
+    this._submitBtn.addEventListener("click", this.renderQuestions.bind(this));
   }
 }
 

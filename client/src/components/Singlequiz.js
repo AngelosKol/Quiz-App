@@ -1,4 +1,5 @@
 import QuestionsApi from "../services/QuestionsApi";
+import { shuffleArray } from "../utils";
 
 class Singlequiz {
   constructor() {
@@ -26,14 +27,6 @@ class Singlequiz {
       this.nextButtonHandler.bind(this)
     );
   }
-  shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-  }
 
   handleReturn() {
     this.div.classList.remove("flex-simple");
@@ -44,7 +37,7 @@ class Singlequiz {
   nextButtonHandler() {
     const question = this._questions[Math.floor(Math.random() * 380)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
-    this.shuffleArray(answers);
+    shuffleArray(answers);
     this.changeQuestion(question, answers);
   }
 
@@ -88,7 +81,7 @@ class Singlequiz {
     await this.startQuiz();
     const question = this._questions[Math.floor(Math.random() * 500)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
-    this.shuffleArray(answers);
+    shuffleArray(answers);
     this.header.style.display = "none";
     this.div.classList.add("flex-simple");
     this.div.innerHTML = `
