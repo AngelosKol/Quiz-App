@@ -60,43 +60,74 @@ class Filtered {
       })
       .slice(0, 5);
     // Render the first five questions that match the filter criteria
-    let html = "";
-    this.div.classList.add("flex-simple");
 
-    filteredQuestions.forEach((question, i) => {
+    while (this.div.firstChild) {
+      this.div.removeChild(this.div.firstChild);
+    }
+
+    // Append each question container to the container
+    for (let i = 0; i < filteredQuestions.length; i++) {
+      const question = filteredQuestions[i];
       const answers = [question.correctAnswer].concat(
         question.incorrectAnswers
       );
-      console.log(answers);
-
       this.singlequiz.shuffleArray(answers);
-      console.log(answers);
-      html += `
-        <div class="quiz-container">
-          <h2 id="question">${question.question}</h2>
-          <p>Category: ${question.category}</p>
-          <p>Difficulty: ${question.difficulty}</p>
-          <div class="choice-container">
-            <p class="choice-prefix">A</p>
-            <p class="choice-text" data-number="1">${answers[0]}</p>
-          </div>
-          <div class="choice-container">
-            <p class="choice-prefix">B</p>
-            <p class="choice-text" data-number="2">${answers[1]}</p>
-          </div>
-          <div class="choice-container">
-            <p class="choice-prefix">C</p>
-            <p class="choice-text" data-number="3">${answers[2]}</p>
-          </div>
-          <div class="choice-container">
-            <p class="choice-prefix">D</p>
-            <p class="choice-text" data-number="4">${answers[3]}</p>
-          </div>
-        </div>
-      `;
-    });
 
-    this.div.innerHTML = html;
+      const questionContainer = document.createElement("div");
+      questionContainer.classList.add("quiz-container");
+
+      const questionText = document.createElement("h2");
+      questionText.classList.add("question-text");
+      questionText.innerText = question.question;
+      questionContainer.appendChild(questionText);
+
+      const categoryText = document.createElement("p");
+      categoryText.innerText = `Category: ${question.category}`;
+      questionContainer.appendChild(categoryText);
+
+      const difficultyText = document.createElement("p");
+      difficultyText.innerText = `Difficulty: ${question.difficulty}`;
+      questionContainer.appendChild(difficultyText);
+
+      for (let j = 0; j < answers.length; j++) {
+        const choiceContainer = document.createElement("div");
+        choiceContainer.classList.add("choice-container");
+
+        const choicePrefix = document.createElement("p");
+        choicePrefix.classList.add("choice-prefix");
+        choicePrefix.innerText = String.fromCharCode(65 + j); // A, B, C, D
+        choiceContainer.appendChild(choicePrefix);
+
+        const choiceText = document.createElement("p");
+        choiceText.classList.add("choice-text");
+        choiceText.dataset.number = j + 1;
+        choiceText.innerText = answers[j];
+        choiceContainer.appendChild(choiceText);
+
+        // Add event listener to each choice
+        choiceText.addEventListener("click", () => {
+          const selectedChoice = parseInt(choiceText.dataset.number);
+          const correctChoice = answers.indexOf(question.correctAnswer) + 1;
+
+          if (selectedChoice === correctChoice) {
+            choiceContainer.classList.add("correct");
+          } else {
+            choiceContainer.classList.add("incorrect");
+          }
+
+          // Disable all choices after an answer is selected
+          const allChoices =
+            choiceContainer.parentElement.querySelectorAll(".choice-text");
+          for (let k = 0; k < allChoices.length; k++) {
+            allChoices[k].classList.add("disabled");
+          }
+        });
+
+        questionContainer.appendChild(choiceContainer);
+      }
+
+      this.div.appendChild(questionContainer);
+    }
   }
 
   //Renders the form for filtering questions
