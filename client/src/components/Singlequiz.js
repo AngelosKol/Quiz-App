@@ -31,7 +31,7 @@ class Singlequiz {
   handleReturn() {
     this.div.classList.remove("flex-simple");
     this.div.innerHTML = "";
-    this.header.style.display = "block";
+    this.header.style.display = "flex";
   }
   //Change question & answers on next button click
   nextButtonHandler() {

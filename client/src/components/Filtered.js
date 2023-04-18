@@ -45,30 +45,28 @@ class Filtered {
     const questionContainer = document.createElement("div");
     questionContainer.classList.add("quiz-container");
 
-    const questionText = document.createElement("h2");
+    const questionText = document.createElement("h5");
     questionText.classList.add("question-text");
     questionText.innerText = question.question;
     questionContainer.appendChild(questionText);
 
     const categoryText = document.createElement("p");
     categoryText.innerText = `Category: ${question.category}`;
-    questionContainer.appendChild(categoryText);
 
     const difficultyText = document.createElement("p");
     difficultyText.innerText = `Difficulty: ${question.difficulty}`;
-    questionContainer.appendChild(difficultyText);
 
     //loop through answers array and create a div for each answer
     for (let j = 0; j < answers.length; j++) {
       const choiceContainer = document.createElement("div");
       choiceContainer.classList.add("choice-container");
       const choicePrefix = document.createElement("p");
-      choicePrefix.classList.add("choice-prefix");
+      choicePrefix.classList.add("choice-prefix-multiple");
       choicePrefix.innerText = String.fromCharCode(65 + j); // A, B, C, D
       choiceContainer.appendChild(choicePrefix);
 
       const choiceText = document.createElement("p");
-      choiceText.classList.add("choice-text");
+      choiceText.classList.add("choice-text-multiple");
       choiceText.dataset.number = j + 1;
       choiceText.innerText = answers[j];
       choiceContainer.appendChild(choiceText);
@@ -92,7 +90,9 @@ class Filtered {
         }
       });
 
+      choiceContainer.style.fontSize = "1rem";
       questionContainer.appendChild(choiceContainer);
+      questionContainer.classList.add("multiple-quiz");
     }
 
     return questionContainer;
@@ -116,6 +116,7 @@ class Filtered {
   }
 
   appendQuestionContainer(questionContainer) {
+    this.div.classList.add("multiple");
     this.div.appendChild(questionContainer);
   }
 
