@@ -3,6 +3,8 @@ import { shuffleArray } from "../utils";
 class Filtered {
   constructor() {
     this.div = document.querySelector(".container");
+    this.header = document.querySelector(".header");
+
     this._questions = [];
     this._categories = [];
   }
@@ -18,7 +20,11 @@ class Filtered {
       console.log(error);
     }
   }
-
+  handleReturn() {
+    this.div.classList.remove("flex-simple");
+    this.div.innerHTML = "";
+    this.header.style.display = "flex";
+  }
   //Renders the first five questions that match the filter criteria
   async renderQuestions() {
     const category = document.getElementById("category").value;
@@ -33,6 +39,8 @@ class Filtered {
     shuffleArray(answers);
     console.log(answers);
     this.div.classList.add("flex-simple");
+    this.header.style.display = "none";
+
     this.div.innerHTML = `
       <div class="quiz-container">
         <h2 id="question">${question.question}</h2>
@@ -64,6 +72,7 @@ class Filtered {
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
 
+    this._returnBtn.addEventListener("click", this.handleReturn.bind(this));
     this._nextButton.addEventListener("click", () => {
       if (this._currentIndex < this._questions.length - 1) {
         this._currentIndex++;
