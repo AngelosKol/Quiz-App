@@ -24,3 +24,9 @@ export function choicesHandler(choices, question, answersArray) {
     });
   });
 }
+
+export function handleReturn() {
+  this.div.classList.remove("flex-simple");
+  this.div.innerHTML = "";
+  this.header.style.display = "flex";
+}

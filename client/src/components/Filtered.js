@@ -1,5 +1,5 @@
 import QuestionsApi from "../services/QuestionsApi";
-import { shuffleArray } from "../utils";
+import { shuffleArray, handleReturn } from "../utils";
 class Filtered {
   constructor() {
     this.div = document.querySelector(".container");
@@ -20,10 +20,14 @@ class Filtered {
       console.log(error);
     }
   }
-  handleReturn() {
-    this.div.classList.remove("flex-simple");
-    this.div.innerHTML = "";
-    this.header.style.display = "flex";
+
+  nextButtonHandler() {
+    if (this._currentIndex < this._questions.length - 1) {
+      this._currentIndex++;
+      this.showQuestion();
+    } else {
+      this._nextButton.classList.add("disabled");
+    }
   }
   //Renders the first five questions that match the filter criteria
   async renderQuestions() {
@@ -72,15 +76,11 @@ class Filtered {
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
 
-    this._returnBtn.addEventListener("click", this.handleReturn.bind(this));
-    this._nextButton.addEventListener("click", () => {
-      if (this._currentIndex < this._questions.length - 1) {
-        this._currentIndex++;
-        this.showQuestion();
-      } else {
-        this._nextButton.classList.add("disabled");
-      }
-    });
+    this._returnBtn.addEventListener("click", handleReturn.bind(this));
+    this._nextButton.addEventListener(
+      "click",
+      this.nextButtonHandler.bind(this)
+    );
   }
 
   showQuestion() {

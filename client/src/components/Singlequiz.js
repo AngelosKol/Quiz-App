@@ -1,5 +1,5 @@
 import QuestionsApi from "../services/QuestionsApi";
-import { shuffleArray } from "../utils";
+import { shuffleArray, handleReturn } from "../utils";
 
 class Singlequiz {
   constructor() {
@@ -21,18 +21,13 @@ class Singlequiz {
 
   //return button handler &  next button handler
   addEventListeners() {
-    this._returnBtn.addEventListener("click", this.handleReturn.bind(this));
+    this._returnBtn.addEventListener("click", handleReturn.bind(this));
     this._nextButton.addEventListener(
       "click",
       this.nextButtonHandler.bind(this)
     );
   }
 
-  handleReturn() {
-    this.div.classList.remove("flex-simple");
-    this.div.innerHTML = "";
-    this.header.style.display = "flex";
-  }
   //Change question & answers on next button click
   nextButtonHandler() {
     const question = this._questions[Math.floor(Math.random() * 380)];
