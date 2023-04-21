@@ -12,10 +12,13 @@ class QuestionsApi {
       url += `?category=${encodeURIComponent(category)}`;
     }
 
-    if (difficulty) {
+    if (!category && difficulty) {
+      url += `?difficulty=${encodeURIComponent(difficulty)}`;
+    }
+    if (category && difficulty) {
       url += `&difficulty=${encodeURIComponent(difficulty)}`;
     }
-
+    console.log(url);
     const response = await axios.get(url);
     return response.data.data;
   }
