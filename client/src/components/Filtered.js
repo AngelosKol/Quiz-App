@@ -15,6 +15,7 @@ class Filtered {
     this._categories = [];
   }
 
+  //method to populate our select options
   async getCategory() {
     try {
       const response = await QuestionsApi.getQuestions();
