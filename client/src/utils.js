@@ -36,3 +36,21 @@ export function choicesHandler(choices, question, answersArray) {
     });
   });
 }
+
+export function changeQuestion(question, answersArray) {
+  const heading = document.getElementById("question");
+  const choices = Array.from(document.getElementsByClassName("choice-text"));
+  choices.forEach((choice) => {
+    choice.removeEventListener("click", () => {});
+  });
+
+  heading.innerHTML = question.question;
+  //choicesHanlder renders choices with answers & add correct/incorrect classes
+  choicesHandler(choices, question, answersArray);
+  //remove all classes from the choices
+  choices.forEach((choice) => {
+    choice.classList.remove("correct");
+    choice.classList.remove("incorrect");
+    choice.classList.remove("disabled");
+  });
+}

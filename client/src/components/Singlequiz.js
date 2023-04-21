@@ -1,5 +1,10 @@
 import QuestionsApi from "../services/QuestionsApi";
-import { shuffleArray, handleReturn, choicesHandler } from "../utils";
+import {
+  shuffleArray,
+  handleReturn,
+  choicesHandler,
+  changeQuestion,
+} from "../utils";
 
 class Singlequiz {
   constructor() {
@@ -33,47 +38,8 @@ class Singlequiz {
     const question = this._questions[Math.floor(Math.random() * 380)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     shuffleArray(answers);
-    this.changeQuestion(question, answers);
+    changeQuestion(question, answers);
   }
-
-  changeQuestion(question, answersArray) {
-    const heading = document.getElementById("question");
-    const choices = Array.from(document.getElementsByClassName("choice-text"));
-    choices.forEach((choice) => {
-      choice.removeEventListener("click", () => {});
-    });
-
-    heading.innerHTML = `${question.question}`;
-    //choicesHanlder renders choices with answers & add correct/incorrect classes
-    choicesHandler(choices, question, answersArray);
-    //remove all classes from the choices
-    choices.forEach((choice) => {
-      choice.classList.remove("correct");
-      choice.classList.remove("incorrect");
-      choice.classList.remove("disabled");
-    });
-  }
-  // choicesHandler(choices, question, answersArray) {
-  //   let answered = false;
-  //   let correctIndex = answersArray.indexOf(question.correctAnswer);
-
-  //   choices.forEach((choice, i) => {
-  //     choice.innerText = `${answersArray[i]}`;
-  //     choice.addEventListener("click", () => {
-  //       if (!answered) {
-  //         // only execute this code if the user hasn't answered the question yet
-  //         answered = true;
-  //         if (choice.innerText === question.correctAnswer) {
-  //           choice.classList.add("correct");
-  //         } else {
-  //           choice.classList.add("incorrect");
-  //           choice.classList.add("disabled");
-  //           choices[correctIndex].classList.add("correct");
-  //         }
-  //       }
-  //     });
-  //   });
-  // }
 
   async render() {
     await this.startQuiz();
