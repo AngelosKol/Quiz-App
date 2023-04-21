@@ -35,7 +35,7 @@ class Singlequiz {
 
   //Change question & answers on next button click
   nextButtonHandler() {
-    const question = this._questions[Math.floor(Math.random() * 380)];
+    const question = this._questions[Math.floor(Math.random() * 1610)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     shuffleArray(answers);
     changeQuestion(question, answers);
@@ -43,9 +43,10 @@ class Singlequiz {
 
   async render() {
     await this.startQuiz();
-    const question = this._questions[Math.floor(Math.random() * 500)];
+    const question = this._questions[Math.floor(Math.random() * 1610)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     shuffleArray(answers);
+
     this.header.style.display = "none";
     this.div.classList.add("flex-simple");
     this.div.innerHTML = `
