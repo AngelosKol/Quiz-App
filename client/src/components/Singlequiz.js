@@ -1,5 +1,5 @@
 import QuestionsApi from "../services/QuestionsApi";
-import { shuffleArray, handleReturn } from "../utils";
+import { shuffleArray, handleReturn, choicesHandler } from "../utils";
 
 class Singlequiz {
   constructor() {
@@ -45,7 +45,7 @@ class Singlequiz {
 
     heading.innerHTML = `${question.question}`;
     //choicesHanlder renders choices with answers & add correct/incorrect classes
-    this.choicesHandler(choices, question, answersArray);
+    choicesHandler(choices, question, answersArray);
     //remove all classes from the choices
     choices.forEach((choice) => {
       choice.classList.remove("correct");
@@ -53,27 +53,27 @@ class Singlequiz {
       choice.classList.remove("disabled");
     });
   }
-  choicesHandler(choices, question, answersArray) {
-    let answered = false;
-    let correctIndex = answersArray.indexOf(question.correctAnswer);
+  // choicesHandler(choices, question, answersArray) {
+  //   let answered = false;
+  //   let correctIndex = answersArray.indexOf(question.correctAnswer);
 
-    choices.forEach((choice, i) => {
-      choice.innerText = `${answersArray[i]}`;
-      choice.addEventListener("click", () => {
-        if (!answered) {
-          // only execute this code if the user hasn't answered the question yet
-          answered = true;
-          if (choice.innerText === question.correctAnswer) {
-            choice.classList.add("correct");
-          } else {
-            choice.classList.add("incorrect");
-            choice.classList.add("disabled");
-            choices[correctIndex].classList.add("correct");
-          }
-        }
-      });
-    });
-  }
+  //   choices.forEach((choice, i) => {
+  //     choice.innerText = `${answersArray[i]}`;
+  //     choice.addEventListener("click", () => {
+  //       if (!answered) {
+  //         // only execute this code if the user hasn't answered the question yet
+  //         answered = true;
+  //         if (choice.innerText === question.correctAnswer) {
+  //           choice.classList.add("correct");
+  //         } else {
+  //           choice.classList.add("incorrect");
+  //           choice.classList.add("disabled");
+  //           choices[correctIndex].classList.add("correct");
+  //         }
+  //       }
+  //     });
+  //   });
+  // }
 
   async render() {
     await this.startQuiz();
@@ -113,7 +113,7 @@ class Singlequiz {
 
     this._nextButton = document.querySelector("#next");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
-    this.choicesHandler(choices, question, answers);
+    choicesHandler(choices, question, answers);
     this.addEventListeners();
   }
 }

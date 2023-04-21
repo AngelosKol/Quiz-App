@@ -1,5 +1,6 @@
 import QuestionsApi from "../services/QuestionsApi";
-import { shuffleArray, handleReturn } from "../utils";
+
+import { shuffleArray, handleReturn, choicesHandler } from "../utils";
 class Filtered {
   constructor() {
     this.div = document.querySelector(".container");
@@ -71,7 +72,7 @@ class Filtered {
       </div>
     `;
     const choices = Array.from(document.getElementsByClassName("choice-text"));
-    this.choicesHandler(choices, question, answers);
+    choicesHandler(choices, question, answers);
 
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
@@ -97,31 +98,31 @@ class Filtered {
       choice.classList.remove("incorrect");
       choice.classList.remove("disabled");
     });
-    this.choicesHandler(choiceTexts, question, answers);
+    choicesHandler(choiceTexts, question, answers);
   }
 
   // method for giviing feedback to the user by adding classes to the choices
-  choicesHandler(choices, question, answersArray) {
-    let answered = false;
-    let correctIndex = answersArray.indexOf(question.correctAnswer);
+  // choicesHandler(choices, question, answersArray) {
+  //   let answered = false;
+  //   let correctIndex = answersArray.indexOf(question.correctAnswer);
 
-    choices.forEach((choice, i) => {
-      choice.innerText = `${answersArray[i]}`;
-      choice.addEventListener("click", () => {
-        if (!answered) {
-          // only execute this code if the user hasn't answered the question yet
-          answered = true;
-          if (choice.innerText === question.correctAnswer) {
-            choice.classList.add("correct");
-          } else {
-            choice.classList.add("incorrect");
-            choice.classList.add("disabled");
-            choices[correctIndex].classList.add("correct");
-          }
-        }
-      });
-    });
-  }
+  //   choices.forEach((choice, i) => {
+  //     choice.innerText = `${answersArray[i]}`;
+  //     choice.addEventListener("click", () => {
+  //       if (!answered) {
+  //         // only execute this code if the user hasn't answered the question yet
+  //         answered = true;
+  //         if (choice.innerText === question.correctAnswer) {
+  //           choice.classList.add("correct");
+  //         } else {
+  //           choice.classList.add("incorrect");
+  //           choice.classList.add("disabled");
+  //           choices[correctIndex].classList.add("correct");
+  //         }
+  //       }
+  //     });
+  //   });
+  // }
   //Renders the form for filtering questions
   async renderForm() {
     await this.getCategory();

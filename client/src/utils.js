@@ -6,27 +6,33 @@ export function shuffleArray(array) {
     array[j] = temp;
   }
 }
-export function choicesHandler(choices, question, answersArray) {
-  choices.forEach((choice, i) => {
-    choice.innerText = `${answersArray[i]}`;
-    choice.addEventListener("click", () => {
-      if (choice.innerText === question.correctAnswer) {
-        this.correctAnswers++;
-        console.log(this.correctAnswers);
-        choice.classList.add("correct");
-      } else {
-        choice.classList.add("incorrect");
-        choice.classList.add("disabled");
-      }
-      choices.forEach((choice) => {
-        choice.removeEventListener("click", () => {});
-      });
-    });
-  });
-}
 
 export function handleReturn() {
   this.div.classList.remove("flex-simple");
   this.div.innerHTML = "";
   this.header.style.display = "flex";
+}
+
+// method for giviing feedback to the user by adding classes to the choices
+
+export function choicesHandler(choices, question, answersArray) {
+  let answered = false;
+  let correctIndex = answersArray.indexOf(question.correctAnswer);
+
+  choices.forEach((choice, i) => {
+    choice.innerText = `${answersArray[i]}`;
+    choice.addEventListener("click", () => {
+      if (!answered) {
+        // only execute this code if the user hasn't answered the question yet
+        answered = true;
+        if (choice.innerText === question.correctAnswer) {
+          choice.classList.add("correct");
+        } else {
+          choice.classList.add("incorrect");
+          choice.classList.add("disabled");
+          choices[correctIndex].classList.add("correct");
+        }
+      }
+    });
+  });
 }
