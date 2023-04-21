@@ -99,19 +99,26 @@ class Filtered {
     });
     this.choicesHandler(choiceTexts, question, answers);
   }
+
+  // method for giviing feedback to the user by adding classes to the choices
   choicesHandler(choices, question, answersArray) {
+    let answered = false;
+    let correctIndex = answersArray.indexOf(question.correctAnswer);
+
     choices.forEach((choice, i) => {
       choice.innerText = `${answersArray[i]}`;
       choice.addEventListener("click", () => {
-        if (choice.innerText === question.correctAnswer) {
-          choice.classList.add("correct");
-        } else {
-          choice.classList.add("incorrect");
-          choice.classList.add("disabled");
+        if (!answered) {
+          // only execute this code if the user hasn't answered the question yet
+          answered = true;
+          if (choice.innerText === question.correctAnswer) {
+            choice.classList.add("correct");
+          } else {
+            choice.classList.add("incorrect");
+            choice.classList.add("disabled");
+            choices[correctIndex].classList.add("correct");
+          }
         }
-        choices.forEach((choice) => {
-          choice.removeEventListener("click", () => {});
-        });
       });
     });
   }
