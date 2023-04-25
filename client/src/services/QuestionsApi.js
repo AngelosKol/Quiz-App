@@ -2,7 +2,7 @@ import axios from "axios";
 
 class QuestionsApi {
   constructor() {
-    this._apiUrl = `http://localhost:8000/api/questions`;
+    this._apiUrl = `/api/questions`;
   }
 
   async getQuestions(category, difficulty) {
