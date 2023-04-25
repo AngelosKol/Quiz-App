@@ -31,22 +31,22 @@ router.get("/", async (req, res) => {
 });
 
 // Store the trivia data in MongoDB
-router.get("/trivia", async (req, res) => {
-  const triviaData = await fetchTriviaData(
-    `https://the-trivia-api.com/api/questions?limit=20`
-  );
+// router.get("/trivia", async (req, res) => {
+//   const triviaData = await fetchTriviaData(
+//     `https://the-trivia-api.com/api/questions?limit=20`
+//   );
 
-  triviaData.forEach(async (trivia) => {
-    const existingQuestion = await Question.findOne({ id: trivia.id });
+//   triviaData.forEach(async (trivia) => {
+//     const existingQuestion = await Question.findOne({ id: trivia.id });
 
-    if (!existingQuestion) {
-      const newQuestion = new Question(trivia);
-      await newQuestion.save();
-    }
-  });
+//     if (!existingQuestion) {
+//       const newQuestion = new Question(trivia);
+//       await newQuestion.save();
+//     }
+//   });
 
-  res.send("Trivia data stored in MongoDB");
-});
+//   res.send("Trivia data stored in MongoDB");
+// });
 
 // Add a question
 router.post("/", async (req, res) => {
