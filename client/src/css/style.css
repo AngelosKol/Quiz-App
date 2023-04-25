@@ -177,6 +177,10 @@ form label {
     font-size: 1rem;
     margin-bottom: 0.5rem;
   }
+
+  .flex-simple{
+    margin:0 auto;
+  }
   
   .play-btn {
     font-size: 1rem;
@@ -210,4 +214,17 @@ form label {
     padding: 1rem;
   }
 
+}
+
+@media only screen and (max-width: 428px) {
+
+.header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+ .wrap .play-btn{
+  margin:0.5rem 1rem
+ }
 }
