@@ -2,7 +2,10 @@
 
 This is a fullstack application in which the user can play a quiz game.
 
-This app includes a Node.js/Express REST API that uses MongoDB for a database. The client-side is built with Webpack.
+
+This app includes a Node.js/Express REST API that uses MongoDB for a database.
+The questions are fetched from the trivia api https://the-trivia-api.com.
+The client-side is built with Webpack.
 
 ## Usage
 
