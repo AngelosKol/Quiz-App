@@ -18,7 +18,6 @@ class Singlequiz {
     try {
       const response = await QuestionsApi.getQuestions();
       this._questions = response;
-      console.log(this._questions);
     } catch (error) {
       console.log(error);
     }
