@@ -27,18 +27,18 @@ class Filtered {
   }
 
   //method to populate our select options
-  async getCategory() {
-    try {
-      const response = await QuestionsApi.getQuestions();
-      const categories = response.map((question) => {
-        return question.category;
-      });
-      this._categories = [...new Set(categories)];
-      console.log(this._categories);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async getCategory() {
+  //   try {
+  //     const response = await QuestionsApi.getQuestions();
+  //     const categories = response.map((question) => {
+  //       return question.category;
+  //     });
+  //     this._categories = [...new Set(categories)];
+  //     console.log(this._categories);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   nextButtonHandler() {
     const question = this._questions[this._currentIndex];
@@ -56,7 +56,9 @@ class Filtered {
   async renderQuestions() {
     const category = document.getElementById("category").value;
     const difficulty = document.getElementById("difficulty").value;
+
     const response = await QuestionsApi.getQuestions(category, difficulty);
+
     this._questions = response;
     console.log(this._questions);
 
@@ -64,7 +66,6 @@ class Filtered {
     const question = this._questions[this._currentIndex];
     const answers = [question.correctAnswer, ...question.incorrectAnswers];
     shuffleArray(answers);
-    console.log(answers);
     this.div.classList.add("flex-simple");
     this.header.style.display = "none";
 
@@ -108,12 +109,14 @@ class Filtered {
 
   //Renders the form for filtering questions
   async renderForm() {
+    console.log(this._categories);
     this.div.innerHTML = `
         <form>
         <label for="category">Category:</label>
         <select name="category" id="category">
           <option value="">--Select category--</option>
           ${this._categories
+            .filter((category) => category !== undefined)
             .map(
               (category) => `<option value="${category}">${category}</option>`
             )
