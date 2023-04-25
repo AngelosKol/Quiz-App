@@ -41,12 +41,14 @@ class Filtered {
   // }
 
   nextButtonHandler() {
+    this._currentIndex++;
+
     const question = this._questions[this._currentIndex];
+    console.log(this._currentIndex);
     const answers = [question.correctAnswer, ...question.incorrectAnswers];
     shuffleArray(answers);
 
     if (this._currentIndex < this._questions.length - 1) {
-      this._currentIndex++;
       changeQuestion(question, answers);
     } else {
       this._nextButton.classList.add("disabled");
@@ -74,19 +76,19 @@ class Filtered {
         <h2 id="question">${question.question}</h2>
         <div class="choice-container">
           <p class="choice-prefix">A</p>
-          <p class="choice-text" data-number="1"></p>
+          <p class="choice-text" data-number="1">${answers[0]}</p>
         </div>
         <div class="choice-container">
           <p class="choice-prefix">B</p>
-          <p class="choice-text" data-number="2"></p>
+          <p class="choice-text" data-number="2">${answers[1]}</p>
         </div>
         <div class="choice-container">
           <p class="choice-prefix">C</p>
-          <p class="choice-text" data-number="3"></p>
+          <p class="choice-text" data-number="3">${answers[2]}</p>
         </div>
         <div class="choice-container">
           <p class="choice-prefix">D</p>
-          <p class="choice-text" data-number="4"></p>
+          <p class="choice-text" data-number="4">${answers[3]}</p>
         </div>
       </div>
       <div class="btn-container">
@@ -94,12 +96,11 @@ class Filtered {
         <button class="btn" id="next">Next</button>
       </div>
     `;
-    const choices = Array.from(document.getElementsByClassName("choice-text"));
-    choicesHandler(choices, question, answers);
 
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
-
+    const choices = Array.from(document.getElementsByClassName("choice-text"));
+    // choicesHandler(choices, question, answers);
     this._returnBtn.addEventListener("click", handleReturn.bind(this));
     this._nextButton.addEventListener(
       "click",
