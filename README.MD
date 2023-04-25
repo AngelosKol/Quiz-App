@@ -58,14 +58,15 @@ MONGO_URI=your_mongodb_uri
 
 ### Short Description
 
-A request is made to the QuestionsApi class to either get all questions or fetch questions a by category
+A request is made to the QuestionsApi class to either get all questions or fetch questions  by category / difficulty.
 
 The QuestionsApi class makes an HTTP request to the /api/questions endpoint of the Node.js server using the axios library.
 
 The Node.js server receives the request and routes it to the appropriate endpoint, which is defined in the questionsRouter module.
 
-The questionsRouter module handles the request by calling the appropriate function, (only get() for now) depending on the request.
+The questionsRouter module handles the request by calling the appropriate function, (only get for now) depending on the request.
 
-The function in the questionsRouter module uses the Question model to interact with the database and either retrieves all questions or adds a new question.
+The function in the questionsRouter module uses the Question model to interact with the database and either retrieves all questions 
+or retrieves question by category and / or difficulty.
 
 The result of the database interaction is returned as a response to the original HTTP request.
