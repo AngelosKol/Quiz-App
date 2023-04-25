@@ -12,7 +12,18 @@ class Filtered {
     this.header = document.querySelector(".header");
 
     this._questions = [];
-    this._categories = [];
+    this._categories = [
+      "Science",
+      "Geography",
+      "Food & Drink",
+      "Arts & Literature",
+      "Sport & Leisure",
+      "Society & Culture",
+      "General Knowledge",
+      "Music",
+      "History",
+      "Film & TV",
+    ];
   }
 
   //method to populate our select options
@@ -23,6 +34,7 @@ class Filtered {
         return question.category;
       });
       this._categories = [...new Set(categories)];
+      console.log(this._categories);
     } catch (error) {
       console.log(error);
     }
@@ -96,7 +108,6 @@ class Filtered {
 
   //Renders the form for filtering questions
   async renderForm() {
-    await this.getCategory();
     this.div.innerHTML = `
         <form>
         <label for="category">Category:</label>
