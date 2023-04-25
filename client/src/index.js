@@ -1,4 +1,3 @@
-import "@fortawesome/fontawesome-free/css/all.css";
 import "./css/style.css";
 import Singlequiz from "./components/Singlequiz";
 import Filtered from "./components/Filtered";
