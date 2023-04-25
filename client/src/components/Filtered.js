@@ -100,7 +100,7 @@ class Filtered {
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
-    // choicesHandler(choices, question, answers);
+    choicesHandler(choices, question, answers);
     this._returnBtn.addEventListener("click", handleReturn.bind(this));
     this._nextButton.addEventListener(
       "click",
