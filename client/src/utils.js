@@ -33,6 +33,7 @@ export function choicesHandler(choices, question, answersArray) {
           choices[correctIndex].classList.add("correct");
         }
       }
+      choice.classList.add("selected");
     });
   });
 }
@@ -52,5 +53,6 @@ export function changeQuestion(question, answersArray) {
     choice.classList.remove("correct");
     choice.classList.remove("incorrect");
     choice.classList.remove("disabled");
+    choice.classList.remove("selected");
   });
 }
