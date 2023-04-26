@@ -34,6 +34,13 @@ class Singlequiz {
 
   //Change question & answers on next button click
   nextButtonHandler() {
+    const choices = Array.from(document.getElementsByClassName("choice-text"));
+
+    if (!choices.some((choice) => choice.classList.contains("selected"))) {
+      // if no choice is selected, disable the Next button and return
+      this._nextButton.classList.add("disabled");
+      return;
+    }
     const question = this._questions[Math.floor(Math.random() * 1610)];
     const answers = [question.correctAnswer].concat(question.incorrectAnswers);
     shuffleArray(answers);
