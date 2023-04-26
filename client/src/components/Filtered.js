@@ -41,8 +41,15 @@ class Filtered {
   // }
 
   nextButtonHandler() {
-    this._currentIndex++;
+    const choices = Array.from(document.getElementsByClassName("choice-text"));
 
+    if (!choices.some((choice) => choice.classList.contains("selected"))) {
+      // if no choice is selected, disable the Next button and return
+      this._nextButton.classList.add("disabled");
+      return;
+    }
+
+    this._currentIndex++;
     const question = this._questions[this._currentIndex];
     console.log(this._currentIndex);
     const answers = [question.correctAnswer, ...question.incorrectAnswers];
