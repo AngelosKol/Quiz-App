@@ -18,7 +18,7 @@ export function handleReturn() {
 export function choicesHandler(choices, question, answersArray) {
   let answered = false;
   let correctIndex = answersArray.indexOf(question.correctAnswer);
-
+  const button = document.getElementById("next");
   choices.forEach((choice, i) => {
     choice.innerText = `${answersArray[i]}`;
     choice.addEventListener("click", () => {
@@ -34,6 +34,7 @@ export function choicesHandler(choices, question, answersArray) {
         }
       }
       choice.classList.add("selected");
+      button.classList.remove("disabled");
     });
   });
 }

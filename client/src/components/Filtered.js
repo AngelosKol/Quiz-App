@@ -26,20 +26,6 @@ class Filtered {
     ];
   }
 
-  //method to populate our select options
-  // async getCategory() {
-  //   try {
-  //     const response = await QuestionsApi.getQuestions();
-  //     const categories = response.map((question) => {
-  //       return question.category;
-  //     });
-  //     this._categories = [...new Set(categories)];
-  //     console.log(this._categories);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   nextButtonHandler() {
     const choices = Array.from(document.getElementsByClassName("choice-text"));
 
