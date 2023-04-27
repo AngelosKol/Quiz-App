@@ -34,14 +34,7 @@ export function choicesHandler(choices, question, answersArray) {
         }
       }
       choice.classList.add("selected");
-<<<<<<< HEAD
-<<<<<<< HEAD
       button.classList.remove("disabled");
-=======
->>>>>>> 4291f21 (Checks if the question is not answered and removes the event listener from next button)
-=======
-      button.classList.remove("disabled");
->>>>>>> 406dd00 (Next button  feedback  by adding class disabled)
     });
   });
 }

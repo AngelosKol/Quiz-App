@@ -12,29 +12,21 @@ class Filtered {
     this.header = document.querySelector(".header");
 
     this._questions = [];
-    this._categories = [];
+    this._categories = [
+      "Science",
+      "Geography",
+      "Food & Drink",
+      "Arts & Literature",
+      "Sport & Leisure",
+      "Society & Culture",
+      "General Knowledge",
+      "Music",
+      "History",
+      "Film & TV",
+    ];
   }
 
-<<<<<<< HEAD
-  //method to populate our select options
-  async getCategory() {
-    try {
-      const response = await QuestionsApi.getQuestions();
-      const categories = response.map((question) => {
-        return question.category;
-      });
-      this._categories = [...new Set(categories)];
-      console.log(this._categories);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-=======
->>>>>>> 406dd00 (Next button  feedback  by adding class disabled)
   nextButtonHandler() {
-<<<<<<< HEAD
-<<<<<<< HEAD
     const choices = Array.from(document.getElementsByClassName("choice-text"));
 
     if (!choices.some((choice) => choice.classList.contains("selected"))) {
@@ -44,21 +36,6 @@ class Filtered {
     }
 
     this._currentIndex++;
-=======
-    this._currentIndex++;
-
->>>>>>> 5e59f7d (bug fix in filter component)
-=======
-    const choices = Array.from(document.getElementsByClassName("choice-text"));
-
-    if (!choices.some((choice) => choice.classList.contains("selected"))) {
-      // if no choice is selected, disable the Next button and return
-      this._nextButton.classList.add("disabled");
-      return;
-    }
-
-    this._currentIndex++;
->>>>>>> 4291f21 (Checks if the question is not answered and removes the event listener from next button)
     const question = this._questions[this._currentIndex];
     console.log(this._currentIndex);
     const answers = [question.correctAnswer, ...question.incorrectAnswers];
@@ -116,15 +93,7 @@ class Filtered {
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
-<<<<<<< HEAD
-<<<<<<< HEAD
     choicesHandler(choices, question, answers);
-=======
-    // choicesHandler(choices, question, answers);
->>>>>>> 5e59f7d (bug fix in filter component)
-=======
-    choicesHandler(choices, question, answers);
->>>>>>> 6d26822 (choicesHandler method call in renderQuestion)
     this._returnBtn.addEventListener("click", handleReturn.bind(this));
     this._nextButton.addEventListener(
       "click",
@@ -134,6 +103,7 @@ class Filtered {
 
   //Renders the form for filtering questions
   async renderForm() {
+    console.log(this._categories);
     this.div.innerHTML = `
         <form>
         <label for="category">Category:</label>
