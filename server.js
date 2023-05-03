@@ -14,11 +14,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+//cors
 app.use(
   cors({
     origin: ["*"],
     methods: ["GET"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
