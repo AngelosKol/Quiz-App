@@ -12,6 +12,8 @@ class Singlequiz {
     this.header = document.querySelector("header");
     this._questions = [];
     this.correctAnswers = 0;
+    this.randomModeBtn = document.getElementById("random-mode");
+    this.randomModeBtn.addEventListener("click", this.render.bind(this));
   }
 
   async startQuiz() {
@@ -25,6 +27,9 @@ class Singlequiz {
 
   //return button handler &  next button handler
   addEventListeners() {
+    this._returnBtn = document.getElementById("return");
+
+    this._nextButton = document.querySelector("#next");
     this._returnBtn.addEventListener("click", handleReturn.bind(this));
     this._nextButton.addEventListener(
       "click",
@@ -82,9 +87,7 @@ class Singlequiz {
   
   </div>
    `;
-    this._returnBtn = document.getElementById("return");
 
-    this._nextButton = document.querySelector("#next");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
     choicesHandler(choices, question, answers);
     this.addEventListeners();
