@@ -10,6 +10,8 @@ class Filtered {
   constructor() {
     this.div = document.querySelector(".container");
     this.header = document.querySelector(".header");
+    this.filterPlayBtn = document.getElementById("filter-mode");
+    this.filterPlayBtn.addEventListener("click", this.renderForm.bind(this));
 
     this._questions = [];
     this._categories = [
