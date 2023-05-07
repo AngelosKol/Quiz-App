@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 
 * {
@@ -166,6 +165,7 @@ form label {
 
 }
 
+
 @media only screen and (max-width: 600px) {
 
   header {
@@ -228,3 +228,4 @@ form label {
   margin:0.5rem 1rem
  }
 }
+
