@@ -5,6 +5,8 @@ import {
   handleReturn,
   choicesHandler,
   changeQuestion,
+  showSpinner,
+  hideSpinner,
 } from "../utils";
 class Filtered {
   constructor() {
@@ -51,13 +53,12 @@ class Filtered {
   }
 
   async renderQuestions() {
+    showSpinner();
     const category = document.getElementById("category").value;
     const difficulty = document.getElementById("difficulty").value;
 
     const response = await QuestionsApi.getQuestions(category, difficulty);
-
     this._questions = response;
-    console.log(this._questions);
 
     this._currentIndex = 0;
     const question = this._questions[this._currentIndex];
@@ -91,7 +92,7 @@ class Filtered {
         <button class="btn" id="next">Next</button>
       </div>
     `;
-
+    hideSpinner();
     this._returnBtn = document.getElementById("return");
     this._nextButton = document.querySelector("#next");
     const choices = Array.from(document.getElementsByClassName("choice-text"));
