@@ -9,14 +9,14 @@
     },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/angelokoliopoulos/Quiz-App.git"
   },
-  "author": "",
+  "author": "Angelos Koliopoulos",
   "license": "MIT",
   "bugs": {
-    
+    "url": "https://github.com/angelokoliopoulos/Quiz-App/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/angelokoliopoulos/Quiz-App#readme",
   "dependencies": {
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
