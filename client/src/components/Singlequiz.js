@@ -4,6 +4,8 @@ import {
   handleReturn,
   choicesHandler,
   changeQuestion,
+  showSpinner,
+  hideSpinner,
 } from "../utils";
 
 class Singlequiz {
@@ -18,8 +20,10 @@ class Singlequiz {
 
   async startQuiz() {
     try {
+      showSpinner();
       const response = await QuestionsApi.getQuestions();
       this._questions = response;
+      hideSpinner();
     } catch (error) {
       console.log(error);
     }
