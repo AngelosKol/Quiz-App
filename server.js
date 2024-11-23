@@ -1,20 +1,28 @@
-const path = require("path");
-const express = require("express");
-require("dotenv").config();
-const port = process.env.PORT || 5000;
-const connectDB = require("./config/db");
-const cors = require("cors");
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import connectDB from "./config/db.js";
+import questionsRouter from "./routes/routing.js";
 
+// Load environment variables
+dotenv.config();
+
+const port = process.env.PORT || 5000;
+
+// Connect to MongoDB
 connectDB();
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "public")));
+// Serve static files
+app.use(express.static(path.resolve("public")));
 
 // Body parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//cors
+
+// CORS configuration
 app.use(
   cors({
     origin: ["*"],
@@ -24,11 +32,13 @@ app.use(
   })
 );
 
+// Root route
 app.get("/", (req, res) => {
-  res.send({ message: "Welcome to Questions Api" });
+  res.send({ message: "Welcome to Questions API" });
 });
 
-const questionsRouter = require("./routes/routing");
+// Questions API routes
 app.use("/api/questions", questionsRouter);
 
+// Start server
 app.listen(port, () => console.log(`Server is listening on port ${port}`));

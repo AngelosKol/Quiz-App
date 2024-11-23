@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express";
+import Question from "../models/Question.js";
 const router = express.Router();
-const Question = require("../models/Question");
 
 async function fetchTriviaData(endpoint) {
   const response = await fetch(`${endpoint}`);
-  const data = response.json();
+  const data = await response.json();
   return data;
 }
 
@@ -65,4 +65,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

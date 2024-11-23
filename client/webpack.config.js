@@ -1,17 +1,18 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import path from "path";
 
-module.exports = {
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+export default {
   mode: "production",
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "../public"),
+    path: path.resolve(process.cwd(), "../public"),
     filename: "bundle.js",
   },
   devServer: {
     static: {
-      directory: path.resolve(__dirname, "../public"),
+      directory: path.resolve(process.cwd(), "../public"),
     },
     port: 3000,
     open: true,
